@@ -1,13 +1,17 @@
+use ructe::{Result, Ructe};
 use std::env;
 use std::path::Path;
 
-fn main() -> Result<(), std::io::Error> {
+fn main() -> Result<()> {
     cornucopia()?;
+
+    let mut ructe = Ructe::from_env().unwrap();
+    ructe.compile_templates("templates").unwrap();
 
     Ok(())
 }
 
-fn cornucopia() -> Result<(), std::io::Error> {
+fn cornucopia() -> Result<()> {
     let queries_path = "queries";
     let out_dir = env::var_os("OUT_DIR").unwrap();
     let file_path = Path::new(&out_dir).join("cornucopia.rs");

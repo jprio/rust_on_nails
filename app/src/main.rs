@@ -2,7 +2,7 @@ mod config;
 mod errors;
 
 use crate::errors::CustomError;
-use axum::{extract::Extension, response::Json, routing::get, Router};
+use axum::{extract::Extension, response::Html, routing::get, Router};
 use deadpool_postgres::Pool;
 use queries::fortunes::Fortunes;
 use std::net::SocketAddr;
@@ -28,13 +28,27 @@ async fn main() {
         .unwrap();
 }
 #[axum_macros::debug_handler]
-async fn fortunes(Extension(pool): Extension<Pool>) -> Result<Json<Vec<Fortunes>>, CustomError> {
+async fn fortunes(Extension(pool): Extension<Pool>) -> Result<Html<&'static str>, CustomError> {
     let client = pool.get().await?;
 
     let fortunes = queries::fortunes::fortunes().bind(&client).all().await?;
 
-    Ok(Json(fortunes))
+    Ok(crate::render(|buf| {
+        crate::templates::fortunes::index_html(buf, "Fortunes", fortunes)
+    }))
 }
 
-// Include the generated source code
+pub fn render<F>(f: F) -> Html<&'static str>
+where
+    F: FnOnce(&mut Vec<u8>) -> Result<(), std::io::Error>,
+{
+    let mut buf = Vec::new();
+    f(&mut buf).expect("Error rendering template");
+    let html: String = String::from_utf8_lossy(&buf).into();
+
+    Html(Box::leak(html.into_boxed_str()))
+}
+
 include!(concat!(env!("OUT_DIR"), "/cornucopia.rs"));
+
+include!(concat!(env!("OUT_DIR"), "/templates.rs"));

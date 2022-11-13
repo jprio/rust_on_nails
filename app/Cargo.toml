@@ -14,7 +14,13 @@ futures = "0.3.25"
 postgres-types = "0.2.4"
 rustls = "0.20.7"
 serde = { version = "1.0.147", features = ["derive"] }
-tokio = { version = "1", default-features = false, features = ["macros", "rt-multi-thread"] }
+tokio = { version = "1", default-features = false, features = [
+    "macros",
+    "rt-multi-thread",
+] }
 tokio-postgres = "0.7.7"
 tokio-postgres-rustls = "0.9.0"
 webpki-roots = "0.22.5"
+
+[build-dependencies]
+ructe = { version = "0.15.0", features = ["mime03"] }
