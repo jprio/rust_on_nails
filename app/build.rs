@@ -19,7 +19,7 @@ fn cornucopia() -> Result<(), std::io::Error> {
     let output = std::process::Command::new("cornucopia")
         .arg("-q")
         .arg(queries_path)
-        //.arg("--derive-ser")
+        .arg("--serialize")
         .arg("-d")
         .arg(&file_path)
         .arg("live")
