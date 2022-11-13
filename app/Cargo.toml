@@ -6,6 +6,7 @@ edition = "2021"
 
 [dependencies]
 axum = "0"
+axum-macros = "0.2.3"
 config = "0.13.1"
 cornucopia_async = "0.4.0"
 deadpool-postgres = "0.10.3"
