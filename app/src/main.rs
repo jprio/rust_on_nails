@@ -4,7 +4,6 @@ mod errors;
 use crate::errors::CustomError;
 use axum::{extract::Extension, response::Html, routing::get, Router};
 use deadpool_postgres::Pool;
-use queries::fortunes::Fortunes;
 use std::net::SocketAddr;
 
 #[tokio::main]

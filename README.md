@@ -10,4 +10,11 @@ Installation Cornucopia :
 
 $ cargo install cornucopia
 
+<<<<<<< HEAD
 Templating avec Ructe
+=======
+Templating html avec Ructe
+
+
+
+>>>>>>> 0d82f89 (template)
